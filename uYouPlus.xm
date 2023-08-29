@@ -34,6 +34,27 @@ static NSString *accessGroupID() {
     return accessGroup;
 }
 
+// URL Stripping
+NSURL *url = [NSURL URLWithString:urlString];
+NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+
+NSMutableArray *queryItems = [NSMutableArray arrayWithArray:components.queryItems];
+for (NSURLQueryItem *item in components.queryItems) {
+    if ([item.name isEqualToString:@"?si="]) {
+        [queryItems removeObject:item];
+        break;
+    }
+}
+
+components.queryItems = queryItems;
+
+if (components.query) {
+    NSRange range = [urlString rangeOfString:components.query];
+    urlString = [urlString substringToIndex:range.location - 1];
+}
+
+NSURL *modifiedURL = [NSURL URLWithString:urlString];
+
 //
 static BOOL IsEnabled(NSString *key) {
     return [[NSUserDefaults standardUserDefaults] boolForKey:key];
