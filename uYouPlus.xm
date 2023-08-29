@@ -35,25 +35,34 @@ static NSString *accessGroupID() {
 }
 
 // URL Stripping
-NSURL *url = [NSURL URLWithString:urlString];
-NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+int main(int argc, const char * argv[]) {
+    @autoreleasepool {
+        NSString *urlString = @"https://www.example.com/page?si=123&otherParam=value";
 
-NSMutableArray *queryItems = [NSMutableArray arrayWithArray:components.queryItems];
-for (NSURLQueryItem *item in components.queryItems) {
-    if ([item.name isEqualToString:@"?si="]) {
-        [queryItems removeObject:item];
-        break;
+        NSURL *url = [NSURL URLWithString:urlString];
+        NSURLComponents *components = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+
+        NSMutableArray<NSURLQueryItem *> *queryItems = [NSMutableArray arrayWithArray:components.queryItems];
+        for (NSURLQueryItem *item in queryItems) {
+            if ([item.name isEqualToString:@"?si="]) {
+                [queryItems removeObject:item];
+                break;
+            }
+        }
+
+        components.queryItems = queryItems;
+
+        if (components.query) {
+            NSRange range = [urlString rangeOfString:components.query];
+            urlString = [urlString substringToIndex:range.location - 1];
+        }
+
+        NSURL *modifiedURL = [NSURL URLWithString:urlString];
+
+        NSLog(@"%@", modifiedURL);
     }
+    return 0;
 }
-
-components.queryItems = queryItems;
-
-if (components.query) {
-    NSRange range = [urlString rangeOfString:components.query];
-    urlString = [urlString substringToIndex:range.location - 1];
-}
-
-NSURL *modifiedURL = [NSURL URLWithString:urlString];
 
 //
 static BOOL IsEnabled(NSString *key) {
