@@ -41,6 +41,27 @@
 @interface SSOConfiguration : NSObject
 @end
 
+// YTNoTracking
+@interface YTICompactLinkRenderer
+@property (nonatomic, assign, readwrite) BOOL hasTrackingParams;
+@end
+
+@implementation YTICompactLinkRenderer
+- (BOOL)hasTrackingParams {
+    return NO;
+}
+@end
+
+@interface YTIReelPlayerOverlayRenderer (DisableTrackingParams)
+@property (nonatomic, assign, readwrite) BOOL hasTrackingParams;
+@end
+
+@implementation YTIReelPlayerOverlayRenderer (DisableTrackingParams)
+- (BOOL)hasTrackingParams {
+    return NO;
+}
+@end
+
 // uYouPlus
 @interface YTChipCloudCell : UIView
 @end
