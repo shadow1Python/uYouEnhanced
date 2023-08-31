@@ -47,6 +47,7 @@
 @end
 
 @implementation YTICompactLinkRenderer
+@synthesize hasTrackingParams = _hasTrackingParams;
 - (BOOL)hasTrackingParams {
     return NO;
 }
@@ -57,6 +58,7 @@
 @end
 
 @implementation YTIReelPlayerOverlayRenderer
+@synthesize hasTrackingParams = _hasTrackingParams;
 - (BOOL)hasTrackingParams {
     return NO;
 }
