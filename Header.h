@@ -46,10 +46,11 @@
 @property (nonatomic, assign, readwrite) BOOL hasTrackingParams;
 @end
 
-@implementation YTICompactLinkRenderer
-@synthesize hasTrackingParams = _hasTrackingParams;
+@implementation YTICompactLinkRenderer {
+    BOOL _hasTrackingParams;
+}
 - (BOOL)hasTrackingParams {
-    return NO;
+    return _hasTrackingParams;
 }
 @end
 
@@ -57,10 +58,11 @@
 @property (nonatomic, assign, readwrite) BOOL hasTrackingParams;
 @end
 
-@implementation YTIReelPlayerOverlayRenderer
-@synthesize hasTrackingParams = _hasTrackingParams;
+@implementation YTIReelPlayerOverlayRenderer {
+    BOOL _hasTrackingParams;
+}
 - (BOOL)hasTrackingParams {
-    return NO;
+    return _hasTrackingParams;
 }
 @end
 
