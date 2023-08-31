@@ -42,7 +42,7 @@
 @end
 
 // YTNoTracking
-@interface YTICompactLinkRenderer
+@interface YTICompactLinkRenderer : NSObject
 @property (nonatomic, assign, readwrite) BOOL hasTrackingParams;
 @end
 
@@ -52,11 +52,11 @@
 }
 @end
 
-@interface YTIReelPlayerOverlayRenderer (DisableTrackingParams)
+@interface YTIReelPlayerOverlayRenderer : NSObject
 @property (nonatomic, assign, readwrite) BOOL hasTrackingParams;
 @end
 
-@implementation YTIReelPlayerOverlayRenderer (DisableTrackingParams)
+@implementation YTIReelPlayerOverlayRenderer
 - (BOOL)hasTrackingParams {
     return NO;
 }
