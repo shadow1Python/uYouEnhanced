@@ -367,29 +367,6 @@ static void repositionCreateTab(YTIGuideResponse *response) {
 - (BOOL)enablePlayerBarForVerticalVideoWhenControlsHiddenInFullscreen { return YES; }
 %end
 
-// YTNoTracking - https://github.com/arichorn/YTNoTracking/
-%hook YTICompactLinkRenderer
-- (BOOL)hasTrackingParams { return NO; }
-%end
-
-%hook YTIReelPlayerOverlayRenderer
-- (BOOL)hasTrackingParams { return NO; }
-%end
-
-%ctor { // @BandarHL
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
-    // Someone needs to hold reference the to Notification
-    _PasteboardChangeObserver = [center addObserverForName:UIPasteboardChangedNotification object:nil queue:mainQueue usingBlock:^(NSNotification * _Nonnull note){
-        
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            trackingParams = @{
-                @"youtu.be" : @[@"s", @"t"],
-                @"youtube.com" : @[@"s", @"t"],
-            };
-        });
-
 // YTNoPaidPromo: https://github.com/PoomSmart/YTNoPaidPromo
 %hook YTMainAppVideoPlayerOverlayViewController
 - (void)setPaidContentWithPlayerData:(id)data {
@@ -936,8 +913,31 @@ static void replaceTab(YTIGuideResponse *response) {
 }
 %end
 
+// YTNoTracking - https://github.com/arichorn/YTNoTracking/
+%hook YTICompactLinkRenderer
+- (BOOL)hasTrackingParams { return NO; }
+%end
+
+%hook YTIReelPlayerOverlayRenderer
+- (BOOL)hasTrackingParams { return NO; }
+%end
+
 # pragma mark - ctor
 %ctor {
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter]; // YTNoTracking (This code was by BandarHL)
+    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+    // Someone needs to hold reference the to Notification
+    _PasteboardChangeObserver = [center addObserverForName:UIPasteboardChangedNotification object:nil queue:mainQueue usingBlock:^(NSNotification * _Nonnull note){
+        
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            trackingParams = @{
+                @"youtu.be" : @[@"s", @"t"],
+                @"youtube.com" : @[@"s", @"t"]
+            };
+        });
+    }];
+
     // Load uYou first so its functions are available for hooks.
     // dlopen([[NSString stringWithFormat:@"%@/Frameworks/uYou.dylib", [[NSBundle mainBundle] bundlePath]] UTF8String], RTLD_LAZY);
 
