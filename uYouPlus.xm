@@ -376,6 +376,20 @@ static void repositionCreateTab(YTIGuideResponse *response) {
 - (BOOL)hasTrackingParams { return NO; }
 %end
 
+%ctor { // @BandarHL
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+    // Someone needs to hold reference the to Notification
+    _PasteboardChangeObserver = [center addObserverForName:UIPasteboardChangedNotification object:nil queue:mainQueue usingBlock:^(NSNotification * _Nonnull note){
+        
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            trackingParams = @{
+                @"youtu.be" : @[@"s", @"t"],
+                @"youtube.com" : @[@"s", @"t"],
+            };
+        });
+
 // YTNoPaidPromo: https://github.com/PoomSmart/YTNoPaidPromo
 %hook YTMainAppVideoPlayerOverlayViewController
 - (void)setPaidContentWithPlayerData:(id)data {
