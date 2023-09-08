@@ -640,6 +640,19 @@ int imageCount = 0;
 
 NSArray *flippableText = @[@23, @37, @46];
 
+NSBundle *MrBeastifyBundle() {
+    static NSBundle *bundle = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSString *tweakBundlePath = [[NSBundle mainBundle] pathForResource:@"MrBeastify" ofType:@"bundle"];
+        if (tweakBundlePath)
+            bundle = [NSBundle bundleWithPath:tweakBundlePath];
+        else
+            bundle = [NSBundle bundleWithPath:ROOT_PATH_NS(@"/Library/Application Support/MrBeastify.bundle")];
+    });
+    return bundle;
+}
+
 NSString *MrBeastifyBundlePath() {
     return [MrBeastifyBundle() bundlePath];
 }
@@ -647,8 +660,6 @@ NSString *MrBeastifyBundlePath() {
 %hook _ASDisplayView
 -(void)layoutSubviews {
     %orig;
- 
-    if (!TweakEnabled()) return;
 
     if (![self.accessibilityIdentifier isEqualToString:@"eml.timestamp"]) return;
 
