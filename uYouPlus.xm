@@ -390,10 +390,11 @@ static void repositionCreateTab(YTIGuideResponse *response) {
 
 %hook CALayer // Less Rounded iPhone Overflow Menu - YTNoModernUI
 - (CGFloat)cornerRadius {
-    if ([self isEqual:[CALayer layerWithAddress:0x285f309e0]])
+   CGFloat originalCornerRadius = %orig;
+    if ([self isEqual:[CALayer layerWithAddress:0x285f309e0]]) {
         return 6.0;
     }
-    return %orig;
+    return originalCornerRadius;
 }
 %end
 
