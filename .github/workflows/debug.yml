@@ -1,0 +1,18 @@
+name: Build uYouPlusExtra for debugging
+
+on:
+  pull_request_review:
+    types: [submitted]
+    branches:
+      - main
+  pull_request_target:
+    branches:
+      - main
+
+jobs:
+  build-debug:
+    uses: ./.github/workflows/buildapp.yml
+    if: ${{ github.event.pull_request.author_association == 'COLLABORATOR' || github.event.pull_request.author_association == 'OWNER' || github.event.review.state == 'approved' }}
+    secrets: inherit
+    with:
+      uyouplus_version: 'debug'
