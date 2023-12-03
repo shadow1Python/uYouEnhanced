@@ -50,16 +50,21 @@
 @end
 
 // ChatGPT
-@interface YTChatGPT ()
+@interface YTChatGPT () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) UIView *menuView;
 @property (nonatomic, strong) UIButton *settingsButton;
 @property (nonatomic, strong) UIButton *closeChipButton;
 @property (nonatomic, strong) UIButton *saveButton;
+
 @property (nonatomic, strong) UIColor *backgroundColor;
 @property (nonatomic, assign) CGFloat cornerRadius;
 @property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, strong) UIColor *assistantBackgroundColor;
 @property (nonatomic, strong) UIColor *assistantTextColor;
+
+@property (nonatomic, strong) UITableView *settingsTableView;
+@property (nonatomic, strong) NSArray *settingsOptions;
+@property (nonatomic, strong) NSMutableArray *settingsSelections;
 @end
 
 // IAmYouTube
