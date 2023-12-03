@@ -49,6 +49,17 @@
 - (YTSingleVideoController *)activeVideo;
 @end
 
+// ChatGPT
+@interface YTChatGPT : NSObject
+@property (nonatomic, strong) UIView *menuView;
+@property (nonatomic, assign) CGFloat cornerRadius;
+@property (nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, strong) UIColor *textColor;
+- (void)setupUI;
+- (void)settingsButtonTapped;
+- (void)updateMenuAppearance;
+@end
+
 // IAmYouTube
 @interface SSOConfiguration : NSObject
 @end
