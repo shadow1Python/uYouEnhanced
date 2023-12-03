@@ -410,6 +410,120 @@ static CGFloat _tabHeight = 45;
 %end
 */
 
+@implementation YTChatGPT
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
+    self.settingsOptions = @[ @"Background Color", @"Corner Radius", @"Text Color", @"Assistant Background Color", @"Assistant Text Color" ];
+    self.settingsSelections = [NSMutableArray arrayWithArray:@[ @0, @10, @0, @0, @0 ]];
+    self.menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 250)];
+    self.menuView.backgroundColor = self.backgroundColor;
+    self.menuView.layer.cornerRadius = self.cornerRadius;
+    [self.view addSubview:self.menuView];
+    self.settingsButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.settingsButton setTitle:@"Settings" forState:UIControlStateNormal];
+    [self.settingsButton addTarget:self action:@selector(showSettings) forControlEvents:UIControlEventTouchUpInside];
+    [self.menuView addSubview:self.settingsButton];
+
+    self.closeChipButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.closeChipButton setTitle:@"Close" forState:UIControlStateNormal];
+    [self.closeChipButton addTarget:self action:@selector(closeMenu) forControlEvents:UIControlEventTouchUpInside];
+    [self.menuView addSubview:self.closeChipButton];
+    
+    self.saveButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.saveButton setTitle:@"Save" forState:UIControlStateNormal];
+    [self.saveButton addTarget:self action:@selector(saveSettings) forControlEvents:UIControlEventTouchUpInside];
+    [self.menuView addSubview:self.saveButton];
+
+    self.settingsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.settingsButton.frame) + 10, CGRectGetWidth(self.menuView.frame), 200)];
+    self.settingsTableView.delegate = self;
+    self.settingsTableView.dataSource = self;
+
+    self.menuView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 200, 250)];
+    self.menuView.backgroundColor = self.backgroundColor;
+    self.menuView.layer.cornerRadius = self.cornerRadius;
+    [self.view addSubview:self.menuView];
+    
+    self.settingsButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.settingsButton setTitle:@"Settings" forState:UIControlStateNormal];
+    [self.settingsButton addTarget:self action:@selector(showSettings) forControlEvents:UIControlEventTouchUpInside];
+    [self.menuView addSubview:self.settingsButton];
+    
+    self.saveButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.saveButton setTitle:@"Save" forState:UIControlStateNormal];
+    [self.saveButton addTarget:self action:@selector(saveSettings) forControlEvents:UIControlEventTouchUpInside];
+    [self.menuView addSubview:self.saveButton];
+    
+    self.backgroundColor = [UIColor lightGrayColor];
+    self.cornerRadius = 10.0;
+    self.textColor = [UIColor blackColor];
+    self.assistantBackgroundColor = [UIColor whiteColor];
+    self.assistantTextColor = [UIColor blackColor];
+}
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    self.menuView.center = self.view.center;
+    
+    CGFloat buttonWidth = 80;
+    CGFloat buttonHeight = 30;
+    CGFloat buttonSpacing = 10
+    CGFloat buttonY = 20;
+    
+    self.settingsButton.frame = CGRectMake((self.menuView.bounds.size.width - buttonWidth) / 2, buttonY, buttonWidth, buttonHeight);
+    buttonY += buttonHeight + buttonSpacing;
+    self.closeChipButton.frame = CGRectMake((self.menuView.bounds.size.width - buttonWidth) / 2, buttonY, buttonWidth, buttonHeight);
+    buttonY += buttonHeight + buttonSpacing;
+    self.saveButton.frame = CGRectMake((self.menuView.bounds.size.width - buttonWidth) / 2, buttonY, buttonWidth, buttonHeight);
+}
+    [self.settingsTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"SettingCell"];
+    
+    [self.menuView addSubview:self.settingsTableView];
+    
+    [self layoutButtons];
+}
+- (void)layoutButtons {
+    CGFloat buttonWidth = 150;
+    CGFloat buttonHeight = 40;
+    CGFloat buttonSpacing = 10;
+    
+    CGFloat buttonY = 20;
+    self.settingsButton.frame = CGRectMake((self.menuView.bounds.size.width - buttonWidth) / 2, buttonY, buttonWidth, buttonHeight);
+    buttonY += buttonHeight + buttonSpacing;
+    self.closeChipButton.frame = CGRectMake((self.menuView.bounds.size.width - buttonWidth) / 2, buttonY, buttonWidth, buttonHeight);
+    buttonY += buttonHeight + buttonSpacing;
+    self.saveButton.frame = CGRectMake((self.menuView.bounds.size.width - buttonWidth) / 2, buttonY, buttonWidth, buttonHeight);
+}
+
+- (void)showSettings {
+}
+- (void)closeMenu {
+    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+- (void)saveSettings {
+}
+
+#pragma mark - UITableViewDataSource
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.settingsOptions.count;
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SettingCell" forIndexPath:indexPath];
+    cell.textLabel.text = self.settingsOptions[indexPath.row];
+    cell.accessoryType = [self.settingsSelections[indexPath.row] boolValue] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    BOOL isSettingSelected = [self.settingsSelections[indexPath.row] boolValue];
+    cell.accessoryType = isSettingSelected ? UITableViewCellAccessoryNone : UITableViewCellAccessoryCheckmark;
+    self.settingsSelections[indexPath.row] = @(isSettingSelected ? 0 : 1);
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+@end
+
 // YTMiniPlayerEnabler: https://github.com/level3tjg/YTMiniplayerEnabler/
 %hook YTWatchMiniBarViewController
 - (void)updateMiniBarPlayerStateFromRenderer {
