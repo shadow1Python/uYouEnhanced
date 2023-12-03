@@ -410,7 +410,28 @@ static CGFloat _tabHeight = 45;
 %end
 */
 
-@implementation YTChatGPT
+%hook YTChatGPT
+- (void)sendMessage:(NSString *)message {
+    OpenAI *openai = [[OpenAI alloc] init];
+
+    [openai makeCompletionRequestWithModel:@"gpt-4"
+                            messages:@[@{ @"role": @"user", @"content": message }]
+                            completion:^(NSDictionary *response, NSError *error) {
+        if (!error) {
+            NSArray *choices = response[@"choices"];
+            if (choices.count > 0) {
+                NSDictionary *delta = choices[0][@"delta"];
+                NSString *content = delta[@"content"];
+                if (content) {
+                    [self processGeneratedText:content];
+                }
+            }
+        } else {
+            [self handleError:error];
+        }
+    }];
+    %orig;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -494,7 +515,6 @@ static CGFloat _tabHeight = 45;
     buttonY += buttonHeight + buttonSpacing;
     self.saveButton.frame = CGRectMake((self.menuView.bounds.size.width - buttonWidth) / 2, buttonY, buttonWidth, buttonHeight);
 }
-
 - (void)showSettings {
 }
 - (void)closeMenu {
@@ -522,7 +542,7 @@ static CGFloat _tabHeight = 45;
     self.settingsSelections[indexPath.row] = @(isSettingSelected ? 0 : 1);
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-@end
+%end
 
 // YTMiniPlayerEnabler: https://github.com/level3tjg/YTMiniplayerEnabler/
 %hook YTWatchMiniBarViewController
