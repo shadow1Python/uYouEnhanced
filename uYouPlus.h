@@ -50,14 +50,16 @@
 @end
 
 // ChatGPT
-@interface YTChatGPT : NSObject
+@interface YTChatGPT ()
 @property (nonatomic, strong) UIView *menuView;
-@property (nonatomic, assign) CGFloat cornerRadius;
+@property (nonatomic, strong) UIButton *settingsButton;
+@property (nonatomic, strong) UIButton *closeChipButton;
+@property (nonatomic, strong) UIButton *saveButton;
 @property (nonatomic, strong) UIColor *backgroundColor;
+@property (nonatomic, assign) CGFloat cornerRadius;
 @property (nonatomic, strong) UIColor *textColor;
-- (void)setupUI;
-- (void)settingsButtonTapped;
-- (void)updateMenuAppearance;
+@property (nonatomic, strong) UIColor *assistantBackgroundColor;
+@property (nonatomic, strong) UIColor *assistantTextColor;
 @end
 
 // IAmYouTube
