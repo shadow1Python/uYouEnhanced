@@ -15,6 +15,7 @@
 
 @interface YTSettingsSectionItemManager (ButtonExtension)
 + (YTSettingsSectionItem *)buttonItemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass;
+- (YTSettingsSectionItem *)buttonItemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass;
 @end
 
 @implementation YTSettingsSectionItemManager (ButtonExtension)
