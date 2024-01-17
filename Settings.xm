@@ -14,8 +14,8 @@
 @end
 
 @interface YTSettingsSectionItemManager (ButtonExtension)
-+ (YTSettingsSectionItem *)buttonItemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass;
-- (YTSettingsSectionItem *)buttonItemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass;
++ (YTSettingsSectionItem *)itemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass;
+- (YTSettingsSectionItem *)itemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass;
 @end
 
 @implementation YTSettingsSectionItemManager (ButtonExtension)
@@ -34,11 +34,11 @@
 
 #define SECTION_HEADER(s) [sectionItems addObject:[%c(YTSettingsSectionItem) itemWithTitle:@"\t" titleDescription:[s uppercaseString] accessibilityIdentifier:nil detailTextBlock:nil selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger sectionItemIndex) { return NO; }]]
 
-#define COLOR_BUTTON_ITEM(t, d, ColourOptionsController) [sectionItems addObject:[self buttonItemWithTitle:t description:d controller:[ColourOptionsController class]]]
-#define COLOR_BUTTON_ITEM2(t, d, ColourOptionsController2) [sectionItems addObject:[self buttonItemWithTitle:t description:d controller:[ColourOptionsController2 class]]]
+#define COLOR_BUTTON_ITEM(t, d, ColourOptionsController) [sectionItems addObject:[self itemWithTitle:t description:d controller:[ColourOptionsController class]]]
+#define COLOR_BUTTON_ITEM2(t, d, ColourOptionsController2) [sectionItems addObject:[self itemWithTitle:t description:d controller:[ColourOptionsController2 class]]]
 
-- (YTSettingsSectionItem *)buttonItemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass {
-    YTSettingsSectionItem *buttonItem = [YTSettingsSectionItem buttonItemWithTitle:title titleDescription:description accessibilityIdentifier:nil buttonBlock:^(YTSettingsCell *cell) {
+- (YTSettingsSectionItem *)itemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass {
+    YTSettingsSectionItem *buttonItem = [YTSettingsSectionItem itemWithTitle:title titleDescription:description accessibilityIdentifier:nil cellBlock:^(YTSettingsCell *cell) {
         UIViewController *controller = [[controllerClass alloc] init];
         controller.modalPresentationStyle = UIModalPresentationFullScreen;
         [cell.viewController presentViewController:controller animated:YES completion:nil];
