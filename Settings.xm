@@ -14,10 +14,8 @@
 
 #define SECTION_HEADER(s) [sectionItems addObject:[%c(YTSettingsSectionItem) itemWithTitle:@"\t" titleDescription:[s uppercaseString] accessibilityIdentifier:nil detailTextBlock:nil selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger sectionItemIndex) { return NO; }]]
 
-#define COLOR_BUTTON_ITEM(t, d, ColourOptionsController) [sectionItems addObject:[YTSettingsSectionItemClass buttonItemWithTitle:t titleDescription:d accessibilityIdentifier:nil buttonBlock:^(YTSettingsCell *cell) {\
-    UINavigationController *colourOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:[[ColourOptionsController alloc] init]]; \
-    [colourOptionsControllerView setModalPresentationStyle:UIModalPresentationFullScreen]; \
-    [self._viewControllerForAncestor presentViewController:colourOptionsControllerView animated:YES completion:nil];} settingItemId:0]]
+#define COLOR_BUTTON_ITEM(t, d, ColourOptionsController) [sectionItems addObject:[YTSettingsSectionItemClass buttonItemWithTitle:t titleDescription:d accessibilityIdentifier:nil buttonBlock:^(YTSettingsCell *cell) { UINavigationController *colourOptionsControllerView = [[UINavigationController alloc] initWithRootViewController:[[ColourOptionsController alloc] init]]; \
+[colourOptionsControllerView setModalPresentationStyle:UIModalPresentationFullScreen]; [self._viewControllerForAncestor.navigationController presentViewController:colourOptionsControllerView animated:YES completion:nil];} settingItemId:0]]
 
 #define COLOR_BUTTON_ITEM2(t, d, ColourOptionsController2) [sectionItems addObject:[YTSettingsSectionItemClass buttonItemWithTitle:t titleDescription:d accessibilityIdentifier:nil buttonBlock:^(YTSettingsCell *cell) {\
     UINavigationController *colourOptionsController2View = [[UINavigationController alloc] initWithRootViewController:[[ColourOptionsController2 alloc] init]]; \
