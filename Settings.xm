@@ -15,6 +15,7 @@
 #define SECTION_HEADER(s) [sectionItems addObject:[%c(YTSettingsSectionItem) itemWithTitle:@"\t" titleDescription:[s uppercaseString] accessibilityIdentifier:nil detailTextBlock:nil selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger sectionItemIndex) { return NO; }]]
 
 #define COLOR_BUTTON_ITEM(t, d, ColourOptionsController) [sectionItems addObject:[self buttonItemWithTitle:t description:d controller:[ColourOptionsController class]]]
+#define COLOR_BUTTON_ITEM2(t, d, ColourOptionsController2) [sectionItems addObject:[self buttonItemWithTitle:t description:d controller:[ColourOptionsController2 class]]]
 
 - (YTSettingsSectionItem *)buttonItemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass {
     YTSettingsSectionItem *buttonItem = [YTSettingsSectionItem buttonItemWithTitle:title titleDescription:description accessibilityIdentifier:nil buttonBlock:^(YTSettingsCell *cell) {
@@ -23,15 +24,6 @@
         [cell.viewController presentViewController:controller animated:YES completion:nil];
     } settingItemId:0];
     return buttonItem;
-}
-
-#define COLOR_BUTTON_ITEM2(t, d, ColourOptionsController2) {\
-    YTSettingsSectionItem *buttonItem2 = [[YTSettingsSectionItem buttonItemWithTitle:t titleDescription:d accessibilityIdentifier:nil buttonBlock:^(YTSettingsCell *cell) {\
-        UINavigationController *navController2 = [[UINavigationController alloc] initWithRootViewController:[[ColourOptionsController2 alloc] init]]; \
-        [navController2 setModalPresentationStyle:UIModalPresentationFullScreen]; \
-        [cell.viewController presentViewController:navController2 animated:YES completion:nil];\
-    } settingItemId:0];\
-    [sectionItems addObject:buttonItem2];\
 }
 
 #define SWITCH_ITEM(t, d, k) [sectionItems addObject:[YTSettingsSectionItemClass switchItemWithTitle:t titleDescription:d accessibilityIdentifier:nil switchOn:IS_ENABLED(k) switchBlock:^BOOL (YTSettingsCell *cell, BOOL enabled) {[[NSUserDefaults standardUserDefaults] setBool:enabled forKey:k];return YES;} settingItemId:0]]
