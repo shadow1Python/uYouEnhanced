@@ -14,13 +14,15 @@
 
 #define SECTION_HEADER(s) [sectionItems addObject:[%c(YTSettingsSectionItem) itemWithTitle:@"\t" titleDescription:[s uppercaseString] accessibilityIdentifier:nil detailTextBlock:nil selectBlock:^BOOL (YTSettingsCell *cell, NSUInteger sectionItemIndex) { return NO; }]]
 
-#define COLOR_BUTTON_ITEM(t, d, ColourOptionsController) {\
-    YTSettingsSectionItem *buttonItem = [[YTSettingsSectionItem buttonItemWithTitle:t titleDescription:d accessibilityIdentifier:nil buttonBlock:^(YTSettingsCell *cell) {\
-        UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:[[ColourOptionsController alloc] init]]; \
-        [navController setModalPresentationStyle:UIModalPresentationFullScreen]; \
-        [cell.viewController presentViewController:navController animated:YES completion:nil];\
-    } settingItemId:0];\
-    [sectionItems addObject:buttonItem];\
+#define COLOR_BUTTON_ITEM(t, d, ColourOptionsController) [sectionItems addObject:[self buttonItemWithTitle:t description:d controller:[ColourOptionsController class]]]
+
+- (YTSettingsSectionItem *)buttonItemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass {
+    YTSettingsSectionItem *buttonItem = [YTSettingsSectionItem buttonItemWithTitle:title titleDescription:description accessibilityIdentifier:nil buttonBlock:^(YTSettingsCell *cell) {
+        UIViewController *controller = [[controllerClass alloc] init];
+        controller.modalPresentationStyle = UIModalPresentationFullScreen;
+        [cell.viewController presentViewController:controller animated:YES completion:nil];
+    } settingItemId:0];
+    return buttonItem;
 }
 
 #define COLOR_BUTTON_ITEM2(t, d, ColourOptionsController2) {\
