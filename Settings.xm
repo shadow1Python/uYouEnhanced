@@ -9,6 +9,21 @@
 #import "Source/ColourOptionsController2.h"
 #import "uYouPlus.h"
 
+@interface YTSettingsSectionItemManager (ButtonExtension)
+- (YTSettingsSectionItem *)buttonItemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass;
+@end
+
+@implementation YTSettingsSectionItemManager (ButtonExtension)
+- (YTSettingsSectionItem *)buttonItemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass {
+    YTSettingsSectionItem *buttonItem = [YTSettingsSectionItem buttonItemWithTitle:title titleDescription:description accessibilityIdentifier:nil buttonBlock:^(YTSettingsCell *cell) {
+        UIViewController *controller = [[controllerClass alloc] init];
+        controller.modalPresentationStyle = UIModalPresentationFullScreen;
+        [cell.viewController presentViewController:controller animated:YES completion:nil];
+    } settingItemId:0];
+    return buttonItem;
+}
+@end
+
 #define VERSION_STRING [[NSString stringWithFormat:@"%@", @(OS_STRINGIFY(TWEAK_VERSION))] stringByReplacingOccurrencesOfString:@"\"" withString:@""]
 #define SHOW_RELAUNCH_YT_SNACKBAR [[%c(GOOHUDManagerInternal) sharedInstance] showMessageMainThread:[%c(YTHUDMessage) messageWithText:LOC(@"RESTART_YOUTUBE")]]
 
