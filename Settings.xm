@@ -9,8 +9,12 @@
 #import "Source/ColourOptionsController2.h"
 #import "uYouPlus.h"
 
+@interface YTSettingsCell (ButtonExtension)
+@property (nonatomic, weak) UIViewController *viewController;
+@end
+
 @interface YTSettingsSectionItemManager (ButtonExtension)
-- (YTSettingsSectionItem *)buttonItemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass;
++ (YTSettingsSectionItem *)buttonItemWithTitle:(NSString *)title description:(NSString *)description controller:(Class)controllerClass;
 @end
 
 @implementation YTSettingsSectionItemManager (ButtonExtension)
