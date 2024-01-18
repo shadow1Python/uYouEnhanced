@@ -18,11 +18,10 @@ jobs:
 
       - name: Remove Redirects of arichorn
         run: |
-          # Replace `OLD_USERNAME` with your old GitHub username
-          # Replace `NEW_USERNAME` with your new GitHub username
-          git ls-remote --tags --refs https://github.com/arichorn/uYouEnhanced.git \
-            | awk -F" " '{print ":refs/"$2}' \
-            | xargs -I % git push https://github.com/arichornlover/uYouEnhanced.git % --delete
+          git clone --mirror https://github.com/arichorn/uYouEnhanced.git
+          cd uYouEnhanced.git
+          git remote set-url --push origin https://github.com/arichornlover/uYouEnhanced.git
+          git push --mirror
 
       - name: Update submodules
         run: |
