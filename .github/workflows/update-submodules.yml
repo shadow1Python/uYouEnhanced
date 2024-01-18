@@ -16,6 +16,29 @@ jobs:
            git config --global user.email "actions@github.com"
            git config --global user.name "GitHub Actions"
 
+name: Remove Redirects
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  remove_redirects:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Remove Redirects of arichorn
+        run: |
+          # Replace `OLD_USERNAME` with your old GitHub username
+          # Replace `NEW_USERNAME` with your new GitHub username
+          git ls-remote --tags --refs https://github.com/arichorn/uYouEnhanced.git \
+            | awk -F" " '{print ":refs/"$2}' \
+            | xargs -I % git push https://github.com/arichornlover/uYouEnhanced.git % --delete
+
       - name: Update submodules
         run: |
           git submodule update --init --recursive --remote Tweaks/Alderis
