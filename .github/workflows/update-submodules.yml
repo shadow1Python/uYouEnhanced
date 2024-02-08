@@ -22,7 +22,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           script: |
-            const { github } = require('@actions/github');
+            const { } = require('@actions/github');
             const issue = context.payload.issue || context.payload.comment.issue;
             const contentToUpdate = issue.title + '\n' + issue.body;
             const updatedContent = contentToUpdate.replace(/uYouPlusExtra/g, 'uYouEnhanced');
