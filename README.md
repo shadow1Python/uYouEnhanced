@@ -38,7 +38,7 @@
 [![Building (Optional)](https://img.shields.io/badge/Building%20%28Optional%29-blue?style=flat)](#building-optional)
 
 # Credits
-- Special thanks to all the developers who have worked on uYouPlus/uYouPlusExtra! 
+- Special thanks to all the developers who have worked on uYouPlus/uYouEnhanced! 
 
 <table id='credit'>
 <tr>
